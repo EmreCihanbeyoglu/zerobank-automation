@@ -1,12 +1,10 @@
 package com.zerobank.stepDefinitions;
 
-import com.zerobank.pages.AccountActivity;
-import com.zerobank.pages.AccountSummary;
-import com.zerobank.pages.FindTransactions;
+import com.zerobank.pages.AccountActivityPage;
+import com.zerobank.pages.AccountSummaryPage;
+import com.zerobank.pages.FindTransactionsPage;
 import com.zerobank.pages.LoginPage;
 import com.zerobank.utilities.BrowserUtils;
-import com.zerobank.utilities.ConfigurationReader;
-import com.zerobank.utilities.Driver;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -21,48 +19,108 @@ public class TransactionsInAccountActivity {
     public void the_user_accesses_the_Find_Transactions_tab() {
 
         new LoginPage().login();
-        new AccountSummary().navigateBetweenPages("Account Activity");
-        AccountActivity accountActivity = new AccountActivity();
-        accountActivity.navigateToTab("Find Transactions");
+        new AccountSummaryPage().navigateBetweenPages("Account Activity");
+        AccountActivityPage accountActivityPage = new AccountActivityPage();
+        accountActivityPage.navigateToTab("Find Transactions");
 
     }
 
     @When("the user enters date range from {string} to {string}")
     public void the_user_enters_date_range_from_to(String fromDate, String toDate) {
-        FindTransactions findTransactions = new FindTransactions();
-        findTransactions.typeIntoFromDateTextBox(fromDate);
-        findTransactions.typeIntoToDateTextBox(toDate);
+        FindTransactionsPage findTransactionsPage = new FindTransactionsPage();
+        findTransactionsPage.typeIntoFromDateTextBox(fromDate);
+        findTransactionsPage.typeIntoToDateTextBox(toDate);
     }
 
     @When("clicks search")
     public void clicks_search() {
-        new FindTransactions().findButton.click();
-        BrowserUtils.waitFor(1);
+        new FindTransactionsPage().clickFindButton();
     }
 
     @Then("results table should only show transactions dates between {string} to  {string}")
     public void results_table_should_only_show_transactions_dates_between_to(String fromDateAsString, String toDateAsString) throws ParseException {
-        FindTransactions findTransactions = new FindTransactions();
-        List<String> dateListAsString = findTransactions.getTransactionsDates();
+        FindTransactionsPage findTransactionsPage = new FindTransactionsPage();
+        List<String> dateListAsString = findTransactionsPage.getTransactionsDates();
 /*        List<String> dateListAsString = new ArrayList<>(Arrays.asList("2020-11-04", "2020-12-19", "2021-09-04"));
         List<Date> dateList = findTransactions.convertDatesInListFromString(dateListAsString);
         Assert.assertTrue(findTransactions.isInDateRange("2020-10-01", "2022-11-15", dateListAsString));*/
-        Assert.assertTrue(findTransactions.isInDateRange(fromDateAsString, toDateAsString, dateListAsString));
+        Assert.assertTrue(findTransactionsPage.isInDateRange(fromDateAsString, toDateAsString, dateListAsString));
     }
 
     @Then("the results should be sorted by most recent date")
     public void the_results_should_be_sorted_by_most_recent_date() {
-        FindTransactions findTransactions = new FindTransactions();
-        List<String> dateListAsString = findTransactions.getTransactionsDates();
-        Assert.assertTrue(findTransactions.isFromMostRecentDate(dateListAsString));
+        FindTransactionsPage findTransactionsPage = new FindTransactionsPage();
+        List<String> dateListAsString = findTransactionsPage.getTransactionsDates();
+        Assert.assertTrue(findTransactionsPage.isFromMostRecentDate(dateListAsString));
     }
 
     @Then("the results table should only not contain transactions dated {string}")
     public void the_results_table_should_only_not_contain_transactions_dated(String specifiedDate) {
-        FindTransactions findTransactions = new FindTransactions();
-        List<String> dateListAsString = findTransactions.getTransactionsDates();
+        FindTransactionsPage findTransactionsPage = new FindTransactionsPage();
+        List<String> dateListAsString = findTransactionsPage.getTransactionsDates();
         System.out.println(dateListAsString);
         Assert.assertFalse(dateListAsString.contains(specifiedDate));
     }
+
+
+    @When("the user enters description {string}")
+    public void the_user_enters_description(String description) {
+        FindTransactionsPage findTransactionsPage = new FindTransactionsPage();
+        findTransactionsPage.typeIntoDescriptionTextBox(description);
+    }
+
+    @Then("results table should only show descriptions containing {string}")
+    public void results_table_should_only_show_descriptions_containing(String specifiedText) {
+        FindTransactionsPage findTransactionsPage = new FindTransactionsPage();
+        List<String> descriptionList = findTransactionsPage.getTransactionsDescriptions();
+        boolean result = findTransactionsPage.doesDescriptionContainSpecifiedText(descriptionList, specifiedText);
+        Assert.assertTrue(result);
+    }
+
+    @Then("results table should not show descriptions containing {string}")
+    public void results_table_should_not_show_descriptions_containing(String specifiedText) {
+        FindTransactionsPage findTransactionsPage = new FindTransactionsPage();
+        List<String> descriptionList = findTransactionsPage.getTransactionsDescriptions();
+        boolean result = findTransactionsPage.doesDescriptionNOTContainSpecifiedText(descriptionList, specifiedText);
+        Assert.assertTrue(result);
+    }
+
+
+    @Then("results table should show at least one result under Deposit")
+    public void results_table_should_show_at_least_one_result_under_Deposit() {
+        FindTransactionsPage findTransactionsPage = new FindTransactionsPage();
+        List<String> depositList = findTransactionsPage.getTransactionsDeposits();
+        Assert.assertTrue(findTransactionsPage.getNumberOfDepositTableRow(depositList) > 0);
+    }
+
+    @Then("results table should show at least one result under Withdrawal")
+    public void results_table_should_show_at_least_one_result_under_Withdrawal() {
+        FindTransactionsPage findTransactionsPage = new FindTransactionsPage();
+        List<String> withdrawalList = findTransactionsPage.getTransactionsWithDrawals();
+        Assert.assertTrue(findTransactionsPage.getNumberOfWithDrawalTableRow(withdrawalList) > 0);
+    }
+
+    @When("user selects type {string}")
+    public void user_selects_type(String option) {
+        FindTransactionsPage findTransactionsPage = new FindTransactionsPage();
+        findTransactionsPage.selectOptionFromDropDown(option);
+        findTransactionsPage.clickFindButton();
+    }
+
+    @Then("results table should show no result under Withdrawal")
+    public void results_table_should_show_no_result_under_Withdrawal() {
+        FindTransactionsPage findTransactionsPage = new FindTransactionsPage();
+        List<String> withdrawalList = findTransactionsPage.getTransactionsWithDrawals();
+        System.out.println(withdrawalList.size());
+        Assert.assertTrue(findTransactionsPage.getNumberOfWithDrawalTableRow(withdrawalList) == 0);
+    }
+
+    @Then("results table should show no result under Deposit")
+    public void results_table_should_show_no_result_under_Deposit() {
+        FindTransactionsPage findTransactionsPage = new FindTransactionsPage();
+        List<String> depositList = findTransactionsPage.getTransactionsDeposits();
+        Assert.assertTrue(findTransactionsPage.getNumberOfDepositTableRow(depositList) == 0);
+    }
+
 
 }

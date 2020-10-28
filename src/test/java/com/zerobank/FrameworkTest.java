@@ -4,11 +4,10 @@ import com.zerobank.pages.*;
 import com.zerobank.utilities.BrowserUtils;
 import com.zerobank.utilities.ConfigurationReader;
 import com.zerobank.utilities.Driver;
-import io.cucumber.java.bs.A;
 import org.openqa.selenium.WebDriver;
 
 import java.text.ParseException;
-import java.util.*;
+import java.util.List;
 
 public class FrameworkTest {
 
@@ -22,7 +21,7 @@ public class FrameworkTest {
         loginPage.login();
         BrowserUtils.waitFor(3);
 
-        AccountSummary accountSummary = new AccountSummary();
+        AccountSummaryPage accountSummaryPage = new AccountSummaryPage();
         //System.out.println(accountSummary.getUserName());
         //accountSummary.clickOnLink("Savings");
 
@@ -33,38 +32,27 @@ public class FrameworkTest {
         System.out.println("accountActivity.getActivePageTab() = " + BasePage.getActivePageTab());
         System.out.println("accountActivity.getSelectedOption() = " + accountActivity.getSelectedOption());*/
 
-        accountSummary.navigateBetweenPages("Account Activity");
-        AccountActivity accountActivity = new AccountActivity();
+        accountSummaryPage.navigateBetweenPages("Account Activity");
+        AccountActivityPage accountActivityPage = new AccountActivityPage();
         //accountActivity.navigateBetweenPages("Find Transactions");
-        accountActivity.navigateToTab("Find Transactions");
-        FindTransactions findTransactions = new FindTransactions();
+        accountActivityPage.navigateToTab("Find Transactions");
+        FindTransactionsPage findTransactionsPage = new FindTransactionsPage();
+
+        findTransactionsPage.findButton.click();
+        BrowserUtils.waitFor(2);
+
+        List<String> depositList = findTransactionsPage.getTransactionsDeposits();
+        System.out.println("*********depost at least one***********'");
+        System.out.println(depositList);
+        //System.out.println(findTransactionsPage.atLeastOneDepositTableRow(depositList));
+
+        List<String> withdrwaList = findTransactionsPage.getTransactionsWithDrawals();
+        System.out.println("*********withdraw at least one***********'");
+        System.out.println(withdrwaList);
+        //System.out.println(findTransactionsPage.atLeastOneWithDrawalTableRow(withdrwaList));
 
 
-
-        findTransactions.fillOutDatesAndClick("2012-09-01", "2012-09-06");
-        //System.out.println(findTransactions.fromDateTextBox.getAttribute("innerHTML"));
-        BrowserUtils.waitForVisibility(findTransactions.transactionsTable, 10);
-        System.out.println(BrowserUtils.getElementsText(findTransactions.getTransactionsDataFromTable()));
-
-
-        List<String> dateListAsString = findTransactions.getTransactionsDates();
-        System.out.println(findTransactions.isInDateRange("2012-09-01", "2012-09-06", dateListAsString));
-/*
-        List<String> list = new ArrayList<>(Arrays.asList("2020-01-15", "2019-02-09", "2021-04-01")) ;
-        System.out.println(list);
-        System.out.println("*************************");
-        System.out.println(findTransactions.sortDatesAsString(list));*/
-        BasePage.logOut();
-
-/*        FindTransactions findTransactions = new FindTransactions();*/
-
-/*        Date fromDate = findTransactions.convertDateFromString("2020-10-01");
-        Date toDate = findTransactions.convertDateFromString("2022-11-15");*/
-/*        List<String> dateListAsString = new ArrayList<>(Arrays.asList("2020-11-04", "2020-12-19", "2021-09-04"));
-
-        List<Date> dateList = findTransactions.convertDatesInListFromString(dateListAsString);
-        System.out.println("**********************************************************''''");
-        System.out.println(findTransactions.isInDateRange("2020-10-01", "2022-11-15", dateListAsString));*/
+        BrowserUtils.waitFor(2);
 
         Driver.closeDriver();
     }

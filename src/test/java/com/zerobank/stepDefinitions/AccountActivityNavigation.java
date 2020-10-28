@@ -1,11 +1,9 @@
 package com.zerobank.stepDefinitions;
 
-import com.zerobank.pages.AccountActivity;
-import com.zerobank.pages.AccountSummary;
+import com.zerobank.pages.AccountActivityPage;
+import com.zerobank.pages.AccountSummaryPage;
 import com.zerobank.pages.BasePage;
 import com.zerobank.pages.LoginPage;
-import com.zerobank.utilities.ConfigurationReader;
-import com.zerobank.utilities.Driver;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -23,7 +21,7 @@ public class AccountActivityNavigation{
 
     @When("the user clicks on {string} link on the Account Summary page")
     public void the_user_clicks_on_link_on_the_Account_Summary_page(String linkName) {
-        new AccountSummary().clickOnLink(linkName);
+        new AccountSummaryPage().clickOnLink(linkName);
     }
 
 
@@ -37,7 +35,7 @@ public class AccountActivityNavigation{
 
     @Then("Account drop down should have {string} selected")
     public void account_drop_down_should_have_selected(String expectedDropDownSelectedOption) {
-        String actualSelectedOption = new AccountActivity().getSelectedOption();
+        String actualSelectedOption = new AccountActivityPage().getSelectedOption();
         Assert.assertEquals(expectedDropDownSelectedOption,actualSelectedOption);
     }
 

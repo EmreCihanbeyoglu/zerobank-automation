@@ -5,7 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-public class AccountSummary extends BasePage{
+public class AccountSummaryPage extends BasePage{
 
     @FindBy(linkText = "Savings")
     public WebElement savingsLink;
