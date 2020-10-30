@@ -23,10 +23,8 @@ public class AddNewPayeeDefinitions {
         new LoginPage().login();
         new AccountSummaryPage().navigateBetweenPages("Pay Bills");
         PayBillsPage payBillsPage = new PayBillsPage();
-        payBillsPage.navigateBetweenPages(tabName);
-        WebDriverWait wait = new WebDriverWait(Driver.get(),10);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//label[@class='control-label'][@for='np_new_payee_name']")));
-    }
+        payBillsPage.navigateToSubTab(tabName);
+   }
 
     @Given("creates new payee using following information")
     public void creates_new_payee_using_following_information(Map<String, String> payeeInformation) {
