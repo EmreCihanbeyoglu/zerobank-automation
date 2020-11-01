@@ -41,9 +41,6 @@ public class TransactionsInAccountActivity {
     public void results_table_should_only_show_transactions_dates_between_to(String fromDateAsString, String toDateAsString) throws ParseException {
         FindTransactionsPage findTransactionsPage = new FindTransactionsPage();
         List<String> dateListAsString = findTransactionsPage.getTransactionsDates();
-/*        List<String> dateListAsString = new ArrayList<>(Arrays.asList("2020-11-04", "2020-12-19", "2021-09-04"));
-        List<Date> dateList = findTransactions.convertDatesInListFromString(dateListAsString);
-        Assert.assertTrue(findTransactions.isInDateRange("2020-10-01", "2022-11-15", dateListAsString));*/
         Assert.assertTrue(findTransactionsPage.isInDateRange(fromDateAsString, toDateAsString, dateListAsString));
     }
 
@@ -112,14 +109,14 @@ public class TransactionsInAccountActivity {
         FindTransactionsPage findTransactionsPage = new FindTransactionsPage();
         List<String> withdrawalList = findTransactionsPage.getTransactionsWithDrawals();
         System.out.println(withdrawalList.size());
-        Assert.assertTrue(findTransactionsPage.getNumberOfWithDrawalTableRow(withdrawalList) == 0);
+        Assert.assertEquals(0, findTransactionsPage.getNumberOfWithDrawalTableRow(withdrawalList));
     }
 
     @Then("results table should show no result under Deposit")
     public void results_table_should_show_no_result_under_Deposit() {
         FindTransactionsPage findTransactionsPage = new FindTransactionsPage();
         List<String> depositList = findTransactionsPage.getTransactionsDeposits();
-        Assert.assertTrue(findTransactionsPage.getNumberOfDepositTableRow(depositList) == 0);
+        Assert.assertEquals(0, findTransactionsPage.getNumberOfDepositTableRow(depositList));
     }
 
 

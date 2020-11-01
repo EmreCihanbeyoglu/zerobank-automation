@@ -13,9 +13,6 @@ public class AccountActivityNavigation{
 
     @Given("the user is logged in")
     public void the_user_is_logged_in() {
-/*        Driver.get().get(ConfigurationReader.getValue("url"));
-        Driver.get().manage().window().maximize();*/
-
         new LoginPage().login();
     }
 
@@ -26,9 +23,9 @@ public class AccountActivityNavigation{
 
 
     @Then("the {string} page should be displayed")
-    public void the_page_should_be_displayed(String pageTab) {
+    public void the_page_should_be_displayed(String expectedActivePageTab) {
+        AccountSummaryPage accountSummaryPage = new AccountSummaryPage();
         String actualActivePageTab = BasePage.getActivePageTab();
-        String expectedActivePageTab = "Account Activity";
         Assert.assertEquals(expectedActivePageTab, actualActivePageTab);
     }
 

@@ -11,10 +11,10 @@ import java.util.List;
 
 public class PayBillsPage extends BasePage{
 
-    public String getMessageContent(){
+/*    public String getMessageContent(){
         WebElement message = Driver.get().findElement(By.id("alert_content"));
         return message.getText();
-    }
+    }*/
 
 
     public String getActiveSubTab(){

@@ -7,6 +7,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import javax.swing.*;
 
@@ -27,6 +29,15 @@ public abstract class BasePage {
 
     public String getUserName(){
         return user.getText();
+    }
+
+    public static String getTitle(){
+        return Driver.get().getTitle();
+    }
+
+    public static String getMessageContent(){
+        WebElement message = Driver.get().findElement(By.id("alert_content"));
+        return message.getText();
     }
 
     public static void logOut(){

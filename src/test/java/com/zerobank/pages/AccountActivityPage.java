@@ -12,6 +12,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.util.List;
+
 public class AccountActivityPage extends BasePage{
 
     private Select select;
@@ -29,8 +31,20 @@ public class AccountActivityPage extends BasePage{
     @FindBy(linkText = "Show Transactions")
     public WebElement showTransactionsTab;
 
+    @FindBy(css = ".table.table-condensed.table-hover th")
+    public List<WebElement> columnsNames;
+
+    public List<String> getColumnNames(){
+        return BrowserUtils.getElementsText(columnsNames);
+    }
+
     public String getSelectedOption(){
         return select.getFirstSelectedOption().getText();
+    }
+
+
+    public List<String> getAllAccountTypeOptions(){
+        return BrowserUtils.getElementsText(select.getOptions());
     }
 
 

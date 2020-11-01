@@ -1,9 +1,6 @@
 package com.zerobank.stepDefinitions;
 
-import com.zerobank.pages.AccountSummaryPage;
-import com.zerobank.pages.AddNewPayeePage;
-import com.zerobank.pages.LoginPage;
-import com.zerobank.pages.PayBillsPage;
+import com.zerobank.pages.*;
 import com.zerobank.utilities.Driver;
 import io.cucumber.java.bs.A;
 import io.cucumber.java.en.Given;
@@ -39,7 +36,7 @@ public class AddNewPayeeDefinitions {
     @Then("message {string} should be displayed")
     public void message_should_be_displayed(String expectedContent) {
         PayBillsPage payBillsPage = new PayBillsPage();
-        String actualContent = payBillsPage.getMessageContent();
+        String actualContent = BasePage.getMessageContent();
         Assert.assertEquals(expectedContent, actualContent);
 
     }

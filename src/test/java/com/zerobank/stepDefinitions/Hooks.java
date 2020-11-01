@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit;
 public class Hooks {
     @Before
     public void setup(){
-        System.out.println("ConfigurationReader.getValue(\"url\") = " + ConfigurationReader.getValue("url"));
+        //System.out.println("ConfigurationReader.getValue(\"url\") = " + ConfigurationReader.getValue("url"));
         WebDriver driver = Driver.get();
         driver.get(ConfigurationReader.getValue("url"));
         Driver.get().manage().window().maximize();
@@ -30,8 +30,10 @@ public class Hooks {
             final byte[] screenshot = ((TakesScreenshot) Driver.get()).getScreenshotAs(OutputType.BYTES);
             scenario.attach(screenshot, "image/png", "screenshot");
         }
-        BasePage.logOut();
-        //BrowserUtils.waitFor(2);
+        String currentUrl = Driver.get().getCurrentUrl();
+        String loginErrorUrl = "http://zero.webappsecurity.com/login.html?login_error=true";
+
+        BrowserUtils.waitFor(1);
         Driver.closeDriver();
     }
 

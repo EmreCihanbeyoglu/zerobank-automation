@@ -21,7 +21,7 @@ Feature: Purchase Foreign Currency
     Given Navigate "Purchase Foreign Currency" tab
     When user tries to calculate cost without selecting a currency
     Then error message should be displayed
-  @wip
+
   Scenario: Error message for not entering value
     Given Navigate "Purchase Foreign Currency" tab
     When user tries to calculate cost without entering a value
