@@ -33,6 +33,11 @@ public class Hooks {
         String currentUrl = Driver.get().getCurrentUrl();
         String loginErrorUrl = "http://zero.webappsecurity.com/login.html?login_error=true";
 
+        if (!currentUrl.equals(loginErrorUrl)){
+            BasePage.logOut();
+        }
+
+
         BrowserUtils.waitFor(1);
         Driver.closeDriver();
     }
