@@ -13,3 +13,4 @@ Individually worked on this bank project. It was a partial test project. Some pr
 
 - Purchase foreign currency functionality
 
+Created a Cucumber – JUnit framework including pom.xml dependencies, page classes with page object model design pattern, WebDriver class with singleton design pattern, properties file, properties file reader class, browser utility class, excel utility class.
